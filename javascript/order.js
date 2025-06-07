@@ -76,7 +76,36 @@ function updatePrice(closestItem) {
 
   if (!isNaN(quantity) && !isNaN(basePrice)) {
     priceElement.innerText = `₹${basePrice * quantity}`;
+    updateCartTotal();
   } else {
     console.error("Invalid quantity or base price");
   }
 }
+
+function updateCartTotal() {
+  let total = 0;
+  const priceElements = document.querySelectorAll(".item-price-cart");
+  priceElements.forEach((el) => {
+    total += parseInt(el.innerText.replace("₹", ""));
+  });
+  document.getElementById("cart-total").innerText = total;
+}
+
+const btnOrderPlaced = document.querySelector(".btn-place-order");
+const greetingMessage = document.querySelector(".order-greetings");
+
+btnOrderPlaced.addEventListener("click", () => {
+  const orderInputFields = document.querySelectorAll(".order-input-fields");
+
+  let isEmpty = false;
+  orderInputFields.forEach((input) => {
+    if (!input.value.trim()) {
+      isEmpty = true;
+    }
+  });
+
+  if (isEmpty) return alert("Fill in all fields!");
+  greetingMessage.style.color = "#25D366";
+  greetingMessage.innerText =
+    "Thank you! Your order has been received. We will contact you shortly.";
+});
